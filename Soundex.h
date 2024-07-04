@@ -1,3 +1,4 @@
+
 #ifndef SOUNDEX_H
 #define SOUNDEX_H
 
@@ -13,7 +14,6 @@ char getSoundexCode(char c) {
     unsigned int index = c - 'A';
     return (index < 26) ? soundexCodes[index] : '0';
 }
-
 void initializeSoundex(char *soundex, char firstLetter) {
     soundex[0] = toupper(firstLetter);
 }
@@ -39,12 +39,6 @@ void fillRemainingWithZeroes(char *soundex, int *sIndex) {
 }
 
 void generateSoundex(const char *name, char *soundex) {
-    if (name == NULL || *name == '\0') {
-        // Handle case where name is NULL or an empty string
-        soundex[0] = '\0'; // Soundex code should be empty
-        return;
-    }
-
     initializeSoundex(soundex, name[0]);
     char previousCode = getSoundexCode(name[0]);
     int sIndex = 1;
@@ -54,5 +48,4 @@ void generateSoundex(const char *name, char *soundex) {
 
     soundex[4] = '\0';
 }
-
 #endif

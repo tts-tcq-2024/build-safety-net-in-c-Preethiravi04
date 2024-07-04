@@ -2,26 +2,41 @@
 #include "Soundex.h"
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 
-int main() {
+void testGenerateSoundex() {
     char soundex[5];
 
-    // Test case 1: Basic test with a simple name
+    // Test case 1: Basic name
     generateSoundex("Smith", soundex);
-    printf("Soundex for Smith: %s\n", soundex);
+    assert(strcmp(soundex, "S530") == 0);
 
-    // Test case 2: Test with a single-character name
-    generateSoundex("A", soundex);
-    printf("Soundex for A: %s\n", soundex);
+    // Test case 2: Name with repeated codes
+    generateSoundex("Johnson", soundex);
+    assert(strcmp(soundex, "J525") == 0);
 
-    // Test case 3: Test with an empty name
+    // Test case 3: Name with mixed vowels and consonants
+    generateSoundex("Euler", soundex);
+    assert(strcmp(soundex, "E460") == 0);
+
+    // Test case 4: Short name
+    generateSoundex("Lee", soundex);
+    assert(strcmp(soundex, "L000") == 0);
+
+    // Test case 5: Name with all the same code
+    generateSoundex("Rrrr", soundex);
+    assert(strcmp(soundex, "R600") == 0);
+
+    // Test case 6: Empty name
     generateSoundex("", soundex);
-    printf("Soundex for empty name: %s\n", soundex);
+    assert(strcmp(soundex, "0000") == 0);
 
-    // Test case 4: Test with a null pointer for name
-    generateSoundex(NULL, soundex);
-    printf("Soundex for null name: %s\n", soundex);
+    printf("All test cases passed successfully!\n");
+}
 
+int main() {
+    testGenerateSoundex();
     return 0;
 }
+

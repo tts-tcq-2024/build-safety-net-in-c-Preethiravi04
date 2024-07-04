@@ -17,13 +17,17 @@ void initializeSoundex(char *soundex, char firstLetter) {
     soundex[0] = toupper(firstLetter);
 }
 
-void processCharacter(const char *name, char *soundex, int *sIndex, char *previousCode) {
+void handleCharacter(char currentChar, char *soundex, int *sIndex, char *previousCode) {
+    char code = getSoundexCode(currentChar);
+    if (code != '0' && code != *previousCode) {
+        soundex[(*sIndex)++] = code;
+        *previousCode = code;
+    }
+}
+
+void processCharacters(const char *name, char *soundex, int *sIndex, char *previousCode) {
     for (int i = 1; name[i] != '\0' && *sIndex < 4; i++) {
-        char code = getSoundexCode(name[i]);
-        if (code != '0' && code != *previousCode) {
-            soundex[(*sIndex)++] = code;
-            *previousCode = code;
-        }
+        handleCharacter(name[i], soundex, sIndex, previousCode);
     }
 }
 
@@ -38,11 +42,9 @@ void generateSoundex(const char *name, char *soundex) {
     char previousCode = getSoundexCode(name[0]);
     int sIndex = 1;
 
-    processCharacter(name, soundex, &sIndex, &previousCode);
+    processCharacters(name, soundex, &sIndex, &previousCode);
     fillRemainingWithZeroes(soundex, &sIndex);
 
     soundex[4] = '\0';
 }
-
-
 #endif

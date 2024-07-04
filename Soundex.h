@@ -14,27 +14,26 @@ char getSoundexCode(char c) {
     return (index < 26) ? soundexCodes[index] : '0';
 }
 
-
-#include "Soundex.h"
-#include <ctype.h>
-#include <string.h>
-
 void generateSoundex(const char *name, char *soundex) {
     int len = strlen(name);
     soundex[0] = toupper(name[0]);
     int sIndex = 1;
-
+    char previousCode = getSoundexCode(name[0]);
+    
     for (int i = 1; i < len && sIndex < 4; i++) {
         char code = getSoundexCode(name[i]);
-        if (code != '0' && code != soundex[sIndex - 1]) {
+        
+        if (code != '0' && code != previousCode) {
             soundex[sIndex++] = code;
+            previousCode = code; // Update previous code
         }
     }
-
+    
     while (sIndex < 4) {
         soundex[sIndex++] = '0';
     }
     
     soundex[4] = '\0';
 }
+
 #endif

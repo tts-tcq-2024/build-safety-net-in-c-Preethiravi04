@@ -13,10 +13,17 @@ char getSoundexCode(char c) {
     unsigned int index = c - 'A';
     return (index < 26) ? soundexCodes[index] : '0';
 }
+void initializeSoundex(char *soundex, char firstLetter) {
+    soundex[0] = toupper(firstLetter);
+}
 
-void appendSoundexChar(char *soundex, int *sIndex, char code) {
-    if (*sIndex < 4) {
-        soundex[(*sIndex)++] = code;
+void processCharacter(const char *name, char *soundex, int *sIndex, char *previousCode) {
+    for (int i = 1; name[i] != '\0' && *sIndex < 4; i++) {
+        char code = getSoundexCode(name[i]);
+        if (code != '0' && code != *previousCode) {
+            soundex[(*sIndex)++] = code;
+            *previousCode = code;
+        }
     }
 }
 
@@ -27,20 +34,15 @@ void fillRemainingWithZeroes(char *soundex, int *sIndex) {
 }
 
 void generateSoundex(const char *name, char *soundex) {
-    soundex[0] = toupper(name[0]);
+    initializeSoundex(soundex, name[0]);
     char previousCode = getSoundexCode(name[0]);
     int sIndex = 1;
 
-    for (int i = 1; name[i] != '\0' && sIndex < 4; i++) {
-        char code = getSoundexCode(name[i]);
-        if (code != '0' && code != previousCode) {
-            appendSoundexChar(soundex, &sIndex, code);
-            previousCode = code;
-        }
-    }
-
+    processCharacter(name, soundex, &sIndex, &previousCode);
     fillRemainingWithZeroes(soundex, &sIndex);
+
     soundex[4] = '\0';
 }
+
 
 #endif

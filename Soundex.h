@@ -15,36 +15,24 @@ char getSoundexCode(char c) {
 }
 
 void generateSoundex(const char *name, char *soundex) {
-    initializeSoundex(name, soundex);
-    char previousCode = initializePreviousCode(name);
-    processName(name, soundex, previousCode);
-} 
-    int i;
-for (i = 1; name[i] != '\0'; i++) {
-    if (sIndex >= 4) {
-        break;  // Exit loop if we've filled soundex up to index 3
+    soundex[0] = toupper(name[0]);  
+    char previousCode = getSoundexCode(name[0]);  
+    int sIndex = 1;  // Initialize index for soundex array
+    
+    for (int i = 1; name[i] != '\0' && sIndex < 4; i++) {
+        char code = getSoundexCode(name[i]);  
+        
+        if (code != '0' && code != previousCode) {
+            soundex[sIndex++] = code;  
+            previousCode = code; 
+        }
     }
     
-    char code = getSoundexCode(name[i]);
-    // Process code as needed, e.g., check if it's valid and add to soundex array
+    while (sIndex < 4) {
+        soundex[sIndex++] = '0';  // Fill remaining positions with '0'
+    }
     
-    sIndex++;  // Increment index for soundex array
+    soundex[4] = '\0';  // Ensure soundex string is null-terminated
 }
-
-// Ensure sIndex does not exceed 4
-sIndex = (sIndex > 4) ? 4 : sIndex;
-
-        
-if (code != '0' && code != previousCode) {
-    soundex[sIndex++] = code;
-    previousCode = code;
-}
-
-for (; sIndex < 4; sIndex++) {
-    soundex[sIndex] = '0';  // Fill remaining positions with '0'
-}
-
-soundex[sIndex] = '\0';  // Null-terminate soundex string
-
 
 #endif

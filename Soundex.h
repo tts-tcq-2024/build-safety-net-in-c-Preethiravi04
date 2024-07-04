@@ -15,25 +15,25 @@ char getSoundexCode(char c) {
 }
 
 void generateSoundex(const char *name, char *soundex) {
-    int len = strlen(name);
-    soundex[0] = toupper(name[0]);
-    int sIndex = 1;
-    char previousCode = getSoundexCode(name[0]);
+    soundex[0] = toupper(name[0]);  
+    char previousCode = getSoundexCode(name[0]);  
+    int sIndex = 1;  // Initialize index for soundex array
     
-    for (int i = 1; i < len && sIndex < 4; i++) {
-        char code = getSoundexCode(name[i]);
+    for (int i = 1; name[i] != '\0' && sIndex < 4; i++) {
+        char code = getSoundexCode(name[i]);  
         
         if (code != '0' && code != previousCode) {
-            soundex[sIndex++] = code;
-            previousCode = code; // Update previous code
+            soundex[sIndex++] = code;  
+            previousCode = code; 
         }
     }
     
     while (sIndex < 4) {
-        soundex[sIndex++] = '0';
+        soundex[sIndex++] = '0';  // Fill remaining positions with '0'
     }
     
-    soundex[4] = '\0';
+    soundex[4] = '\0';  // Ensure soundex string is null-terminated
 }
+
 
 #endif

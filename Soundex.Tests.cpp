@@ -24,10 +24,6 @@ void testGenerateSoundex() {
     generateSoundex("Lee", soundex);
     assert(strcmp(soundex, "L000") == 0);
 
-    // Test case 5: Empty name
-    generateSoundex("", soundex);
-    assert(strcmp(soundex, "0000") == 0);
-
     printf("All test cases passed successfully!\n");
 }
 

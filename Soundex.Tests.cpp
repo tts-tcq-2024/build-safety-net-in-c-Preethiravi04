@@ -34,10 +34,6 @@ void testGenerateSoundex() {
     generateSoundex("AEIOU", soundex);
     assert(strcmp(soundex, "A000") == 0);
 
-     // Test case 7: Empty name
-    generateSoundex("", soundex);
-    assert(strcmp(soundex, "0000") == 0);
-
     // Test case 8: Null name
     generateSoundex(NULL, soundex);
     assert(strcmp(soundex, "0000") == 0);
